@@ -1,2 +1,2 @@
 Django
-django-constance[database]<3
+django-constance[database]==2.9.1

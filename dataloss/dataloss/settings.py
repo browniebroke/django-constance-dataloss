@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "constance",
+    "constance.backends.database",
 ]
 
 MIDDLEWARE = [
@@ -121,3 +123,9 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Django constance settings
+CONSTANCE_BACKEND = "constance.backends.database.DatabaseBackend"
+CONSTANCE_CONFIG = {
+    "CUSTOM_SETTING": (1, "A custom setting.", int),
+}
