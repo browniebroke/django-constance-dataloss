@@ -2,3 +2,4 @@ Django
 dj-database-url
 django-constance[database]==2.9.1
 psycopg
+mysqlclient

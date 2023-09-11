@@ -9,8 +9,17 @@ concurrency:
 
 jobs:
   postgres:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        - db: PostgreSQL
+          db_url: "postgres://postgres:postgres@localhost:5432/postgres"
+        - db: MySQL
+          db_url: "mysql://test:test@localhost:3306/test"
 
+    runs-on: ubuntu-latest
+    name: Test with ${{ matrix.db }}
+    env:
+      DATABASE_URL: ${{ matrix.db_url }}
     services:
       postgres:
         image: postgres:15
@@ -18,19 +27,23 @@ jobs:
           - 5432:5432
         env:
           POSTGRES_PASSWORD: postgres
-    env:
-      DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
+      mysql:
+        image: mysql:8
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: test
+          MYSQL_USER: test
+          MYSQL_PASSWORD: test
 
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v4
         with:
           python-version: "3.11"
           cache: pip
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+      - run: pip install -r requirements.txt
 
       - name: Change config
         run: ./scripts/change-config.sh
