@@ -50,5 +50,8 @@ jobs:
       - name: Change config
         run: ./scripts/change-config.sh
 
+      - name: Upgrade to django-constance v3
+        run: ./scripts/upgrade-constance.sh
+
       - name: Check persisted
         run: ./scripts/check-config-persisted.sh
