@@ -10,16 +10,18 @@ concurrency:
 jobs:
   postgres:
     strategy:
+      fail-fast: false
       matrix:
-        - db: PostgreSQL
-          db_url: "postgres://postgres:postgres@localhost:5432/postgres"
-        - db: MySQL
-          db_url: "mysql://test:test@localhost:3306/test"
+        db:
+          - name: PostgreSQL
+            url: "postgres://postgres:postgres@localhost:5432/postgres"
+          - name: MySQL
+            url: "mysql://test:test@localhost:3306/test"
 
     runs-on: ubuntu-latest
-    name: Test with ${{ matrix.db }}
+    name: Test with ${{ matrix.db.name }}
     env:
-      DATABASE_URL: ${{ matrix.db_url }}
+      DATABASE_URL: ${{ matrix.db.url }}
     services:
       postgres:
         image: postgres:15
